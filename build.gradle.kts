@@ -20,6 +20,11 @@ repositories {
     mavenCentral()
 }
 
+tasks.register("stage") {
+    dependsOn("build", "clean")
+    tasks.findByName("build")?.mustRunAfter("clean")
+}
+
 dependencies {
     implementation("io.insert-koin:koin-ktor:$koin_version")
     implementation("org.litote.kmongo:kmongo:$kmongo_version")
