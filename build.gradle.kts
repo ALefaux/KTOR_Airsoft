@@ -50,6 +50,6 @@ dependencies {
     
     // Exposed & Postgresql
     implementation("org.jetbrains.exposed:exposed:0.17.14")
-    implementation("com.zaxxer:HikariCP:5.0.0")
+    implementation("com.zaxxer:HikariCP:4.0.3")
     implementation("org.postgresql:postgresql:42.3.1")
 }
