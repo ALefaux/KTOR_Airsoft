@@ -8,16 +8,16 @@ import fr.alefaux.plugins.*
 import io.ktor.application.*
 import org.koin.core.context.startKoin
 
-fun main() {
-    embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
-        config()
+fun main(args: Array<String>): Unit = io.ktor.server.netty.EngineMain.main(args)
 
-        startKoin {
-            modules(repositoriesModule)
-        }
+fun Application.module(testing: Boolean = false) {
+    config()
 
-        configureMonitoring()
-        configureSerialization()
-        configureGraphQL(log)
-    }.start(wait = true)
+    startKoin {
+        modules(repositoriesModule)
+    }
+
+    configureMonitoring()
+    configureSerialization()
+    configureGraphQL(log)
 }
