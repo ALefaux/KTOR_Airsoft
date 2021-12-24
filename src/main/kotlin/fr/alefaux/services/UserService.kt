@@ -17,4 +17,8 @@ class UserService(private val userRepository: UserRepository) {
         return userRepository.getById(userId)
     }
 
+    fun getAll(): List<User> {
+        return userRepository.getAll()
+    }
+
 }

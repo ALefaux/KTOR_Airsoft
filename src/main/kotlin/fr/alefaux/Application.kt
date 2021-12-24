@@ -2,9 +2,8 @@ package fr.alefaux
 
 import fr.alefaux.config.config
 import fr.alefaux.di.repositoriesModule
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
 import fr.alefaux.plugins.*
+import fr.alefaux.routing.configureRouting
 import io.ktor.application.*
 import org.koin.core.context.startKoin
 
@@ -17,7 +16,7 @@ fun Application.module(testing: Boolean = false) {
         modules(repositoriesModule)
     }
 
+    configureRouting()
     configureMonitoring()
     configureSerialization()
-    configureGraphQL(log)
 }
