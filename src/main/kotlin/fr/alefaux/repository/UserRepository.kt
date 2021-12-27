@@ -4,7 +4,6 @@ import fr.alefaux.dto.User
 import fr.alefaux.models.Users
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
-import java.util.*
 
 class UserRepository {
     fun getAll(): List<User> {
@@ -23,13 +22,12 @@ class UserRepository {
 
     fun create(insertUser: User): User? {
         return transaction {
-            val userId: String = UUID.randomUUID().toString()
             Users.insert {
-                it[id] = userId
+                it[id] = insertUser.id
                 it[soldierName] = insertUser.soldierName
                 it[imageUrl] = insertUser.imageUrl
             }
-            getById(userId)
+            getById(insertUser.id)
         }
     }
 
