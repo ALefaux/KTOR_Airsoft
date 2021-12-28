@@ -32,6 +32,12 @@ class TeamRepository(private val userRepository: UserRepository) {
         return@transaction getById(teamId)
     }
 
+    fun nameExists(name: String): Boolean = transaction {
+        return@transaction Teams.select { Teams.name eq name }
+            .map { toTeam(it) }
+            .singleOrNull() != null
+    }
+
     private fun toTeam(row: ResultRow): Team =
         Team(
             id = row[Teams.id],

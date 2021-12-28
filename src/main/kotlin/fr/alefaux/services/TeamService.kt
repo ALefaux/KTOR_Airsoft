@@ -7,6 +7,14 @@ class TeamService(private val teamRepository: TeamRepository) {
 
     fun getAll(filter: String): List<Team> = teamRepository.getAll(filter)
 
-    fun create(insertTeam: Team): Team? = teamRepository.create(insertTeam)
+    fun create(insertTeam: Team): ReturnedService<Team> {
+        val nameExists = teamRepository.nameExists(insertTeam.name)
+        return if(!nameExists) {
+            val value = teamRepository.create(insertTeam)
+            ReturnedService(data = value)
+        } else {
+            ReturnedService(ReturnedService.Status.NAME_EXISTS)
+        }
+    }
 
 }
