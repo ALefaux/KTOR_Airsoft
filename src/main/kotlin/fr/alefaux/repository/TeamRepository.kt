@@ -5,14 +5,13 @@ import fr.alefaux.models.Teams
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.select
-import org.jetbrains.exposed.sql.selectAll
 import org.jetbrains.exposed.sql.transactions.transaction
 import java.util.*
 
 class TeamRepository(private val userRepository: UserRepository) {
 
-    fun getAll(): List<Team> = transaction {
-        return@transaction Teams.selectAll()
+    fun getAll(filter: String): List<Team> = transaction {
+        return@transaction Teams.select { Teams.name like filter }
             .map { toTeam(it) }
     }
 
