@@ -1,6 +1,8 @@
 package fr.alefaux.routing
 
 import fr.alefaux.dto.User
+import fr.alefaux.services.ErrorReturned
+import fr.alefaux.services.ReturnedService
 import fr.alefaux.services.UserService
 import io.ktor.application.*
 import io.ktor.http.*
@@ -21,12 +23,15 @@ fun Application.userRouting() {
             }
             post {
                 val inputUser = call.receive<User>()
-                val user = userService.add(inputUser)
+                val result = userService.create(inputUser)
 
-                if(user != null) {
-                    call.respond(HttpStatusCode.Created, user)
-                } else {
-                    call.respond(HttpStatusCode.Conflict)
+                when (result.status) {
+                    ReturnedService.Status.OK -> call.respond(HttpStatusCode.Created, result.data!!)
+                    ReturnedService.Status.NAME_EXISTS -> {
+                        val error = ErrorReturned("This soldier name exists")
+                        call.respond(HttpStatusCode.Conflict, error)
+                    }
+                    else -> call.respond(HttpStatusCode.Gone)
                 }
             }
             get("/{id}") {

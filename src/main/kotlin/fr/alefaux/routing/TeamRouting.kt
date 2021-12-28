@@ -18,8 +18,7 @@ fun Application.teamRouting() {
     routing {
         route(TEAM_PATH) {
             get {
-                val filterParameter: String = call.request.queryParameters["filter"] ?: ""
-                val filter = "%$filterParameter%"
+                val filter: String = call.request.queryParameters["filter"] ?: ""
                 val teams = teamService.getAll(filter)
                 call.respond(HttpStatusCode.OK, teams)
             }

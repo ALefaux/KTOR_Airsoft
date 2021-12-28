@@ -33,8 +33,7 @@ class TeamRepository(private val userRepository: UserRepository) {
     }
 
     fun nameExists(name: String): Boolean = transaction {
-        return@transaction Teams.select { Teams.name eq name }
-            .map { toTeam(it) }
+        return@transaction Teams.select { Teams.name like "%$name%" }
             .singleOrNull() != null
     }
 
