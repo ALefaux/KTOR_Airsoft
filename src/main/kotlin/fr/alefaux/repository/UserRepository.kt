@@ -31,6 +31,11 @@ class UserRepository {
         }
     }
 
+    fun soldierNameExists(soldierName: String): Boolean = transaction {
+        return@transaction Users.select { Users.soldierName like "%$soldierName%" }
+            .singleOrNull() != null
+    }
+
     private fun toUser(row: ResultRow): User =
         User(
             id = row[Users.id],

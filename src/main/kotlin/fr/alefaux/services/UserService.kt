@@ -5,12 +5,14 @@ import fr.alefaux.repository.UserRepository
 
 class UserService(private val userRepository: UserRepository) {
 
-    fun add(inputUser: User): User? {
-        return userRepository.create(inputUser)
-    }
-
-    fun checkUserExist(userId: String): Boolean {
-        return userRepository.getById(userId) != null
+    fun create(inputUser: User): ReturnedService<User> {
+        val soldierNameExists: Boolean = userRepository.soldierNameExists(inputUser.soldierName)
+        return if (!soldierNameExists) {
+            val value = userRepository.create(inputUser)
+            ReturnedService(data = value)
+        } else {
+            ReturnedService(ReturnedService.Status.NAME_EXISTS)
+        }
     }
 
     fun getById(userId: String): User? {
