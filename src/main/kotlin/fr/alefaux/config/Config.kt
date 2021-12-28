@@ -1,6 +1,7 @@
 package fr.alefaux.config
 
 import fr.alefaux.config.DataSource.devDataSource
+import fr.alefaux.models.Teams
 import fr.alefaux.models.Users
 import io.ktor.application.*
 import org.jetbrains.exposed.sql.Database
@@ -16,6 +17,6 @@ fun initDb() {
     Database.connect(dataSource)
 
     transaction {
-        SchemaUtils.create(Users)
+        SchemaUtils.create(Users, Teams)
     }
 }
