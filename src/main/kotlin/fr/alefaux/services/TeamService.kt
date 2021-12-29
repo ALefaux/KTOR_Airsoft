@@ -1,7 +1,8 @@
 package fr.alefaux.services
 
-import fr.alefaux.dto.Team
+import fr.alefaux.models.Team
 import fr.alefaux.repository.TeamRepository
+import fr.alefaux.services.models.ReturnedService
 
 class TeamService(private val teamRepository: TeamRepository) {
 

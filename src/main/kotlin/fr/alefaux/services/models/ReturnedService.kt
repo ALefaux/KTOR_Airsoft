@@ -1,4 +1,4 @@
-package fr.alefaux.services
+package fr.alefaux.services.models
 
 data class ReturnedService<T>(
     val status: Status = Status.OK,

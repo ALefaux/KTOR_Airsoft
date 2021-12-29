@@ -1,8 +1,8 @@
-package fr.alefaux.routing
+package fr.alefaux.plugins.routing
 
-import fr.alefaux.dto.Team
-import fr.alefaux.services.ErrorReturned
-import fr.alefaux.services.ReturnedService
+import fr.alefaux.models.Team
+import fr.alefaux.services.models.ErrorReturned
+import fr.alefaux.services.models.ReturnedService
 import fr.alefaux.services.TeamService
 import io.ktor.application.*
 import io.ktor.http.*

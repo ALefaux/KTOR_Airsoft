@@ -1,46 +1,32 @@
 package fr.alefaux.repository
 
-import fr.alefaux.dto.User
-import fr.alefaux.models.Users
-import org.jetbrains.exposed.sql.*
+import fr.alefaux.bdd.entities.UserEntity
+import fr.alefaux.bdd.tables.Users
+import fr.alefaux.models.User
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserRepository {
-    fun getAll(): List<User> {
-        return transaction {
-            Users.selectAll().map { toUser(it) }
-        }
+    fun getAll(): List<User> = transaction {
+        UserEntity.all().map { it.toUser() }.toList()
     }
 
-    fun getById(userId: String): User? {
-        return transaction {
-            Users.select { (Users.id eq userId) }
-                .mapNotNull { toUser(it) }
-                .singleOrNull()
-        }
+    fun getById(userId: Int): User? = transaction {
+        UserEntity.findById(userId)?.toUser()
     }
 
-    fun create(insertUser: User): User? {
+    fun create(insertUser: User): User {
         return transaction {
-            Users.insert {
-                it[id] = insertUser.id
-                it[soldierName] = insertUser.soldierName
-                it[imageUrl] = insertUser.imageUrl
-            }
-            getById(insertUser.id)
+            UserEntity.new {
+                externalId = insertUser.externalId
+                soldierName = insertUser.soldierName
+                imageUrl = insertUser.imageUrl
+            }.toUser()
         }
     }
 
     fun soldierNameExists(soldierName: String): Boolean = transaction {
-        return@transaction Users.select { Users.soldierName like "%$soldierName%" }
+        return@transaction UserEntity.find { Users.soldierName like "%$soldierName%" }
             .singleOrNull() != null
     }
-
-    private fun toUser(row: ResultRow): User =
-        User(
-            id = row[Users.id],
-            soldierName = row[Users.soldierName],
-            imageUrl = row[Users.imageUrl]
-        )
 
 }

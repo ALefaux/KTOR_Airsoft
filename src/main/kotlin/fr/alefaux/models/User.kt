@@ -1,7 +1,8 @@
-package fr.alefaux.dto
+package fr.alefaux.models
 
 data class User(
-    val id: String = "",
+    val id: Int = -1,
+    val externalId: String = "",
     val soldierName: String = "",
     val imageUrl: String = ""
 )

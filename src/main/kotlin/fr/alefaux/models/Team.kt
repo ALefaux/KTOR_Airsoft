@@ -1,9 +1,9 @@
-package fr.alefaux.dto
+package fr.alefaux.models
 
 data class Team(
-    val id: String = "",
+    val id : Int = -1,
     val name: String = "",
     val acceptApplies: Boolean = true,
 
-    val chief: User
+    val chief: User? = null
 )

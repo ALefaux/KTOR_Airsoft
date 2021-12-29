@@ -1,7 +1,8 @@
 package fr.alefaux.services
 
-import fr.alefaux.dto.User
+import fr.alefaux.models.User
 import fr.alefaux.repository.UserRepository
+import fr.alefaux.services.models.ReturnedService
 
 class UserService(private val userRepository: UserRepository) {
 
@@ -15,7 +16,7 @@ class UserService(private val userRepository: UserRepository) {
         }
     }
 
-    fun getById(userId: String): User? {
+    fun getById(userId: Int): User? {
         return userRepository.getById(userId)
     }
 

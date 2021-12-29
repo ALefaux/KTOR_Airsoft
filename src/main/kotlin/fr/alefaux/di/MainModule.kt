@@ -9,7 +9,7 @@ import org.koin.dsl.module
 val repositoriesModule = module(createdAtStart = true) {
     // Repositories
     single { UserRepository() }
-    single { TeamRepository(get()) }
+    single { TeamRepository() }
 
     // Services
     single { UserService(get()) }

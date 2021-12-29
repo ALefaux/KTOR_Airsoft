@@ -1,4 +1,4 @@
-package fr.alefaux.routing
+package fr.alefaux.plugins.routing
 
 import io.ktor.application.*
 
