@@ -7,5 +7,5 @@ data class User(
     val imageUrl: String = "",
 
     val applies: List<Apply>? = null,
-    val team: Team? = null
+    var team: Team? = null
 )

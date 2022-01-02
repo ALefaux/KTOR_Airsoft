@@ -1,5 +1,6 @@
 package fr.alefaux.repository
 
+import fr.alefaux.bdd.entities.TeamEntity
 import fr.alefaux.bdd.entities.UserEntity
 import fr.alefaux.bdd.tables.Users
 import fr.alefaux.models.User
@@ -21,6 +22,20 @@ class UserRepository {
                 soldierName = insertUser.soldierName
                 imageUrl = insertUser.imageUrl
             }.toUser()
+        }
+    }
+
+    fun update(user: User): Boolean {
+        return transaction {
+            val userEnfity = UserEntity.findById(user.id)
+            userEnfity?.soldierName = user.soldierName
+            userEnfity?.imageUrl = user.imageUrl
+
+            if(user.team != null) {
+                userEnfity?.team = TeamEntity.findById(user.team!!.id)
+            }
+
+            userEnfity?.flush() ?: false
         }
     }
 

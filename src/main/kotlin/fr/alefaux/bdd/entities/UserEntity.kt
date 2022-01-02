@@ -15,7 +15,7 @@ class UserEntity(id: EntityID<Int>) : IntEntity(id) {
     var imageUrl by Users.imageUrl
 
     val applies by ApplyEntity referrersOn Applies.applier
-    val team by TeamEntity optionalReferencedOn Users.team
+    var team by TeamEntity optionalReferencedOn Users.team
 
     fun toUser(): User {
         return User(id.value, externalId, soldierName, imageUrl)
