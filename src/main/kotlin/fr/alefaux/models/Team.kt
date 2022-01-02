@@ -6,5 +6,6 @@ data class Team(
     val acceptApplies: Boolean = true,
 
     val chief: User? = null,
-    val applies: List<Apply>? = null
+    val applies: List<Apply>? = null,
+    val members: List<User>? = null
 )

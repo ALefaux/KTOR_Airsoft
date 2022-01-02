@@ -6,5 +6,6 @@ data class User(
     val soldierName: String = "",
     val imageUrl: String = "",
 
-    val applies: List<Apply>? = null
+    val applies: List<Apply>? = null,
+    val team: Team? = null
 )
