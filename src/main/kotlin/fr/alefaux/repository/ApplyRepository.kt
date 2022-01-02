@@ -12,20 +12,22 @@ class ApplyRepository {
     fun create(createApply: CreateApply): RepositoryResult<Apply> = transaction {
         val teamFound: TeamEntity? = TeamEntity.findById(createApply.teamId)
 
-        // todo missing member check
-
         if (teamFound != null) {
             if (teamFound.applies.none { it.applier.id.value == createApply.applierId }) {
-                val applierFound: UserEntity? = UserEntity.findById(createApply.applierId)
+                if(teamFound.members.none { it.id.value == createApply.applierId }) {
+                    val applierFound: UserEntity? = UserEntity.findById(createApply.applierId)
 
-                if (applierFound != null) {
-                    val result = ApplyEntity.new {
-                        team = teamFound
-                        applier = applierFound
-                    }.toApply()
-                    return@transaction RepositoryResult(data = result)
+                    if (applierFound != null) {
+                        val result = ApplyEntity.new {
+                            team = teamFound
+                            applier = applierFound
+                        }.toApply()
+                        return@transaction RepositoryResult(data = result)
+                    } else {
+                        return@transaction RepositoryResult(RepositoryResult.Type.NOT_FOUND, message = "User not found")
+                    }
                 } else {
-                    return@transaction RepositoryResult(RepositoryResult.Type.NOT_FOUND, message = "User not found")
+                    return@transaction RepositoryResult(RepositoryResult.Type.EXISTS, message = "User is a member")
                 }
             } else {
                 return@transaction RepositoryResult(RepositoryResult.Type.EXISTS, message = "User has already apply")
