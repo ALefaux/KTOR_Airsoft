@@ -3,6 +3,7 @@ val kotlin_version: String by project
 val logback_version: String by project
 val graphql_version: String by project
 val koin_version: String by project
+val exposed_version: String by project
 
 plugins {
     application
@@ -43,7 +44,9 @@ dependencies {
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
     // Exposed & Postgresql
-    implementation("org.jetbrains.exposed:exposed:0.17.14")
+    implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-dao:$exposed_version")
+    implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
     implementation("com.zaxxer:HikariCP:4.0.3") // Do not pass to version 5 cause not support jvm 1.8
     implementation("org.postgresql:postgresql:42.3.1")
 }

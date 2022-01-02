@@ -1,19 +1,22 @@
 package fr.alefaux.services
 
-import fr.alefaux.dto.Team
+import fr.alefaux.models.Team
 import fr.alefaux.repository.TeamRepository
+import fr.alefaux.services.models.ServiceResult
 
-class TeamService(private val teamRepository: TeamRepository) {
+class TeamService(
+    private val teamRepository: TeamRepository
+) {
 
     fun getAll(filter: String): List<Team> = teamRepository.getAll(filter)
 
-    fun create(insertTeam: Team): ReturnedService<Team> {
+    fun create(insertTeam: Team): ServiceResult<Team> {
         val nameExists = teamRepository.nameExists(insertTeam.name)
-        return if(!nameExists) {
+        return if (!nameExists) {
             val value = teamRepository.create(insertTeam)
-            ReturnedService(data = value)
+            ServiceResult(data = value)
         } else {
-            ReturnedService(ReturnedService.Status.NAME_EXISTS)
+            ServiceResult(ServiceResult.Status.NAME_EXISTS)
         }
     }
 

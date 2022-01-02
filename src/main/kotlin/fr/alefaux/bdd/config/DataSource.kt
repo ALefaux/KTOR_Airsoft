@@ -1,4 +1,4 @@
-package fr.alefaux.config
+package fr.alefaux.bdd.config
 
 import com.typesafe.config.ConfigFactory
 import com.zaxxer.hikari.HikariConfig
