@@ -57,6 +57,19 @@ fun Application.applyRouting() {
                     call.respond(HttpStatusCode.BadRequest)
                 }
             }
+            delete("/{id}") {
+                val applyId = call.parameters["id"]?.toIntOrNull()
+
+                if(applyId != null) {
+                    val result = applyService.deleteApply(applyId)
+
+                    if(result.isOk()) {
+                        call.respond(HttpStatusCode.OK)
+                    } else {
+                        call.respond(HttpStatusCode.Gone)
+                    }
+                }
+            }
         }
     }
 }

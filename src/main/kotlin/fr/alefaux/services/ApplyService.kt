@@ -44,4 +44,12 @@ class ApplyService(
         }
     }
 
+    fun deleteApply(applyId: Int): ServiceResult<Boolean> {
+        return if(applyRepository.delete(applyId)) {
+            ServiceResult(ServiceResult.Status.OK)
+        } else {
+            ServiceResult(ServiceResult.Status.ERROR)
+        }
+    }
+
 }
