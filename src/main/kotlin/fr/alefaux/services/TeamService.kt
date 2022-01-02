@@ -10,6 +10,16 @@ class TeamService(
 
     fun getAll(filter: String): List<Team> = teamRepository.getAll(filter)
 
+    fun getById(teamId: Int): ServiceResult<Team> {
+        val team: Team? = teamRepository.getById(teamId)
+
+        return if(team != null) {
+            ServiceResult(data = team)
+        } else {
+            ServiceResult(ServiceResult.Status.NOT_FOUND)
+        }
+    }
+
     fun create(insertTeam: Team): ServiceResult<Team> {
         val nameExists = teamRepository.nameExists(insertTeam.name)
         return if (!nameExists) {

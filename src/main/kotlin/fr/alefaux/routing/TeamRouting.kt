@@ -22,6 +22,21 @@ fun Application.teamRouting() {
                 val teams = teamService.getAll(filter)
                 call.respond(HttpStatusCode.OK, teams)
             }
+            get("/{id}") {
+                val teamId: Int? = call.parameters["id"]?.toIntOrNull()
+
+                if(teamId != null) {
+                    val result = teamService.getById(teamId)
+
+                    if(result.isOk()) {
+                        call.respond(HttpStatusCode.OK, result.data!!)
+                    } else {
+                        call.respond(HttpStatusCode.Gone)
+                    }
+                } else {
+                    call.respond(HttpStatusCode.BadRequest)
+                }
+            }
             post {
                 val insertTeam = call.receive<Team>()
                 val result: ServiceResult<Team> = teamService.create(insertTeam)
