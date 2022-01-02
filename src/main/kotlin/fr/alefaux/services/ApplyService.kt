@@ -2,11 +2,14 @@ package fr.alefaux.services
 
 import fr.alefaux.models.Apply
 import fr.alefaux.models.CreateApply
+import fr.alefaux.models.User
 import fr.alefaux.repository.ApplyRepository
+import fr.alefaux.repository.UserRepository
 import fr.alefaux.services.models.ServiceResult
 
 class ApplyService(
-    private val applyRepository: ApplyRepository
+    private val applyRepository: ApplyRepository,
+    private val userRepository: UserRepository
 ) {
 
     fun createApply(createApply: CreateApply): ServiceResult<Apply> {
@@ -22,12 +25,12 @@ class ApplyService(
     fun acceptApply(applyId: Int): ServiceResult<Boolean> {
         val apply = applyRepository.getById(applyId)
 
-        return if(apply != null) {
-            // todo ajouter un membre
-            val deleted = applyRepository.delete(applyId)
+        return if(apply?.applier != null && apply.team != null) {
+            val user: User = apply.applier
+            user.team = apply.team
 
-            if(deleted) {
-                ServiceResult(ServiceResult.Status.OK)
+            if(userRepository.update(user)) {
+                deleteApply(applyId)
             } else {
                 ServiceResult(ServiceResult.Status.ERROR)
             }

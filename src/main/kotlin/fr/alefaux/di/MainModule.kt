@@ -7,7 +7,6 @@ import fr.alefaux.services.ApplyService
 import fr.alefaux.services.TeamService
 import fr.alefaux.services.UserService
 import org.koin.dsl.module
-import java.util.logging.Logger
 
 val repositoriesModule = module(createdAtStart = true) {
     // Repositories
@@ -18,5 +17,5 @@ val repositoriesModule = module(createdAtStart = true) {
     // Services
     single { UserService(get()) }
     single { TeamService(get()) }
-    single { ApplyService(get())}
+    single { ApplyService(get(), get())}
 }
