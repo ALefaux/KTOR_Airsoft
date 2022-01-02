@@ -5,5 +5,6 @@ data class Team(
     val name: String = "",
     val acceptApplies: Boolean = true,
 
-    val chief: User? = null
+    val chief: User? = null,
+    val applies: List<Apply>? = null
 )

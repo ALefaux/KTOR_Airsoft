@@ -3,7 +3,6 @@ package fr.alefaux
 import fr.alefaux.bdd.config.config
 import fr.alefaux.di.repositoriesModule
 import fr.alefaux.plugins.*
-import fr.alefaux.plugins.routing.configureRouting
 import io.ktor.application.*
 import org.koin.core.context.startKoin
 

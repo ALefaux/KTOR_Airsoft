@@ -3,6 +3,7 @@ package fr.alefaux.repository
 import fr.alefaux.bdd.entities.TeamEntity
 import fr.alefaux.bdd.entities.UserEntity
 import fr.alefaux.bdd.tables.Teams
+import fr.alefaux.models.Apply
 import fr.alefaux.models.Team
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -10,7 +11,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 class TeamRepository {
 
     fun getAll(filter: String): List<Team> = transaction {
-        return@transaction TeamEntity.all().filter { it.name.contains(filter) }.map { it.toTeam() }.toList()
+        return@transaction TeamEntity.all().filter { it.name.contains(filter) }.map { it.toTeamWithApplies() }.toList()
     }
 
     fun create(insertTeam: Team): Team? = transaction {

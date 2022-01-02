@@ -2,17 +2,17 @@ package fr.alefaux.services
 
 import fr.alefaux.models.User
 import fr.alefaux.repository.UserRepository
-import fr.alefaux.services.models.ReturnedService
+import fr.alefaux.services.models.ServiceResult
 
 class UserService(private val userRepository: UserRepository) {
 
-    fun create(inputUser: User): ReturnedService<User> {
+    fun create(inputUser: User): ServiceResult<User> {
         val soldierNameExists: Boolean = userRepository.soldierNameExists(inputUser.soldierName)
         return if (!soldierNameExists) {
             val value = userRepository.create(inputUser)
-            ReturnedService(data = value)
+            ServiceResult(data = value)
         } else {
-            ReturnedService(ReturnedService.Status.NAME_EXISTS)
+            ServiceResult(ServiceResult.Status.NAME_EXISTS)
         }
     }
 

@@ -1,8 +1,8 @@
-package fr.alefaux.plugins.routing
+package fr.alefaux.routing
 
 import fr.alefaux.models.Team
 import fr.alefaux.services.models.ErrorReturned
-import fr.alefaux.services.models.ReturnedService
+import fr.alefaux.services.models.ServiceResult
 import fr.alefaux.services.TeamService
 import io.ktor.application.*
 import io.ktor.http.*
@@ -24,11 +24,11 @@ fun Application.teamRouting() {
             }
             post {
                 val insertTeam = call.receive<Team>()
-                val result: ReturnedService<Team> = teamService.create(insertTeam)
+                val result: ServiceResult<Team> = teamService.create(insertTeam)
 
                 when (result.status) {
-                    ReturnedService.Status.OK -> call.respond(HttpStatusCode.Created, result.data as Team)
-                    ReturnedService.Status.NAME_EXISTS -> {
+                    ServiceResult.Status.OK -> call.respond(HttpStatusCode.Created, result.data as Team)
+                    ServiceResult.Status.NAME_EXISTS -> {
                         val error = ErrorReturned("This team name exists")
                         call.respond(HttpStatusCode.Conflict, error)
                     }

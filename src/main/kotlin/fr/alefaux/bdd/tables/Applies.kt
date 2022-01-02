@@ -1,6 +1,6 @@
 package fr.alefaux.bdd.tables
 
-import org.jetbrains.exposed.dao.IntIdTable
+import org.jetbrains.exposed.dao.id.IntIdTable
 
 object Applies: IntIdTable("apply") {
     val applier = reference("applier", Users)
