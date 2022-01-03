@@ -13,7 +13,7 @@ class TeamService(
     fun getById(teamId: Int): ServiceResult<Team> {
         val team: Team? = teamRepository.getById(teamId)
 
-        return if(team != null) {
+        return if (team != null) {
             ServiceResult(data = team)
         } else {
             ServiceResult(ServiceResult.Status.NOT_FOUND)
@@ -28,6 +28,16 @@ class TeamService(
         } else {
             ServiceResult(ServiceResult.Status.NAME_EXISTS)
         }
+    }
+
+    fun update(team: Team): ServiceResult<Boolean> {
+        return if (teamRepository.update(team)) {
+            ServiceResult(ServiceResult.Status.OK)
+        } else {
+            ServiceResult(ServiceResult.Status.ERROR)
+        }
+
+
     }
 
 }
