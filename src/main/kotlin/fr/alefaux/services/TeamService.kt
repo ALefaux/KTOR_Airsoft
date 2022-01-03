@@ -2,10 +2,12 @@ package fr.alefaux.services
 
 import fr.alefaux.models.Team
 import fr.alefaux.repository.TeamRepository
+import fr.alefaux.repository.UserRepository
 import fr.alefaux.services.models.ServiceResult
 
 class TeamService(
-    private val teamRepository: TeamRepository
+    private val teamRepository: TeamRepository,
+    private val userRepository: UserRepository
 ) {
 
     fun getAll(filter: String): List<Team> = teamRepository.getAll(filter)
@@ -38,6 +40,22 @@ class TeamService(
         }
 
 
+    }
+
+    fun removeUser(teamId: Int, userId: Int): ServiceResult<Boolean> {
+        val teamFound = teamRepository.getById(teamId)
+
+        return if(teamFound != null && teamFound.members?.any { it.id == userId } == true) {
+            val result = userRepository.removeTeamForUser(userId)
+
+            if(result) {
+                ServiceResult(ServiceResult.Status.OK)
+            } else {
+                ServiceResult(ServiceResult.Status.ERROR)
+            }
+        } else {
+            ServiceResult(ServiceResult.Status.ERROR)
+        }
     }
 
 }

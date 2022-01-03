@@ -60,6 +60,22 @@ fun Application.teamRouting() {
                     call.respond(HttpStatusCode.Gone)
                 }
             }
+            delete("/{id}/user/{userId}") {
+                val teamId: Int? = call.parameters["id"]?.toIntOrNull()
+                val userId: Int? = call.parameters["userId"]?.toIntOrNull()
+
+                if(teamId != null && userId != null) {
+                    val result = teamService.removeUser(teamId, userId)
+
+                    if(result.isOk()) {
+                        call.respond(HttpStatusCode.OK)
+                    } else {
+                        call.respond(HttpStatusCode.Gone)
+                    }
+                } else {
+                    call.respond(HttpStatusCode.BadRequest)
+                }
+            }
         }
     }
 }
