@@ -50,6 +50,16 @@ fun Application.teamRouting() {
                     else -> call.respond(HttpStatusCode.Gone)
                 }
             }
+            put {
+                val team = call.receive<Team>()
+                val result = teamService.update(team)
+
+                if(result.isOk()) {
+                    call.respond(HttpStatusCode.OK)
+                } else {
+                    call.respond(HttpStatusCode.Gone)
+                }
+            }
         }
     }
 }

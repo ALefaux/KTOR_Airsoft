@@ -34,6 +34,21 @@ class TeamRepository {
         }
     }
 
+    fun update(team: Team): Boolean = transaction {
+        val teamEntity = TeamEntity.findById(team.id)
+        teamEntity?.name = team.name
+        teamEntity?.acceptApplies = team.acceptApplies
+
+        if(team.chief?.id != null) {
+            val newChief = UserEntity.findById(team.chief.id)
+            if (newChief != null) {
+                teamEntity?.chief = newChief
+            }
+        }
+
+        return@transaction teamEntity?.flush() ?: false
+    }
+
     fun nameExists(name: String): Boolean = transaction {
         return@transaction Teams.select { Teams.name like "%$name%" }
             .singleOrNull() != null
