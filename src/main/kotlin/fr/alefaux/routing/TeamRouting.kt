@@ -75,6 +75,22 @@ fun Application.teamRouting() {
                     call.respond(HttpStatusCode.BadRequest)
                 }
             }
+            get("/{id}/applies") {
+                val teamId: Int? = call.parameters["id"]?.toIntOrNull()
+
+                if(teamId != null) {
+                    val result = teamService.getById(teamId)
+
+                    if (result.isOk()) {
+                        val applies = result.data!!.applies ?: listOf()
+                        call.respond(HttpStatusCode.OK, applies)
+                    } else {
+                        call.respond(HttpStatusCode.Gone)
+                    }
+                } else {
+                    call.respond(HttpStatusCode.BadRequest)
+                }
+            }
             delete("/{id}/user/{userId}") {
                 val teamId: Int? = call.parameters["id"]?.toIntOrNull()
                 val userId: Int? = call.parameters["userId"]?.toIntOrNull()
