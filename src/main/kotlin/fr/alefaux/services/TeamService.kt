@@ -38,8 +38,14 @@ class TeamService(
         } else {
             ServiceResult(ServiceResult.Status.ERROR)
         }
+    }
 
-
+    fun delete(teamId: Int): ServiceResult<Boolean> {
+        return if(teamRepository.delete(teamId)) {
+            ServiceResult(ServiceResult.Status.OK)
+        } else {
+            ServiceResult(ServiceResult.Status.ERROR)
+        }
     }
 
     fun removeUser(teamId: Int, userId: Int): ServiceResult<Boolean> {

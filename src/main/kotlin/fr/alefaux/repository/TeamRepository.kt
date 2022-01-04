@@ -49,6 +49,11 @@ class TeamRepository {
         return@transaction teamEntity?.flush() ?: false
     }
 
+    fun delete(teamId: Int): Boolean = transaction {
+        TeamEntity.findById(teamId)?.delete()
+        return@transaction TeamEntity.findById(teamId) == null
+    }
+
     fun nameExists(name: String): Boolean = transaction {
         return@transaction Teams.select { Teams.name like "%$name%" }
             .singleOrNull() != null

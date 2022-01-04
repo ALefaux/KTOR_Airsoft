@@ -60,6 +60,21 @@ fun Application.teamRouting() {
                     call.respond(HttpStatusCode.Gone)
                 }
             }
+            delete("/{id}") {
+                val teamId: Int? = call.parameters["id"]?.toIntOrNull()
+
+                if(teamId != null) {
+                    val result = teamService.delete(teamId)
+
+                    if(result.isOk()) {
+                        call.respond(HttpStatusCode.OK)
+                    } else {
+                        call.respond(HttpStatusCode.Gone)
+                    }
+                } else {
+                    call.respond(HttpStatusCode.BadRequest)
+                }
+            }
             delete("/{id}/user/{userId}") {
                 val teamId: Int? = call.parameters["id"]?.toIntOrNull()
                 val userId: Int? = call.parameters["userId"]?.toIntOrNull()
