@@ -1,5 +1,6 @@
 package fr.alefaux.services
 
+import fr.alefaux.models.CreateTeam
 import fr.alefaux.models.Team
 import fr.alefaux.repository.TeamRepository
 import fr.alefaux.repository.UserRepository
@@ -22,7 +23,7 @@ class TeamService(
         }
     }
 
-    fun create(insertTeam: Team): ServiceResult<Team> {
+    fun create(insertTeam: CreateTeam): ServiceResult<Team> {
         val nameExists = teamRepository.nameExists(insertTeam.name)
         return if (!nameExists) {
             val value = teamRepository.create(insertTeam)
