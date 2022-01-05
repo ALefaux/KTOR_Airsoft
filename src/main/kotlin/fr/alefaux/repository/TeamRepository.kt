@@ -56,4 +56,9 @@ class TeamRepository {
             .singleOrNull() != null
     }
 
+    fun findTeamFromChiefId(chiefId: Int): Team? = transaction {
+        return@transaction TeamEntity.find { Teams.chief eq chiefId }
+            .singleOrNull()?.toTeam()
+    }
+
 }

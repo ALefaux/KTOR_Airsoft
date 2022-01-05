@@ -15,7 +15,7 @@ val repositoriesModule = module(createdAtStart = true) {
     single { ApplyRepository() }
 
     // Services
-    single { UserService(get()) }
+    single { UserService(get(), get()) }
     single { TeamService(get(), get()) }
     single { ApplyService(get(), get())}
 }
