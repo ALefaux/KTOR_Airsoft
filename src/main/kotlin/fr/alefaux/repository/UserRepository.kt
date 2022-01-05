@@ -44,4 +44,10 @@ class UserRepository {
             .singleOrNull() != null
     }
 
+    fun removeTeamForUser(userId: Int): Boolean = transaction {
+        val userEntity = UserEntity.findById(userId)
+        userEntity?.team = null
+        return@transaction userEntity?.flush() ?: false
+    }
+
 }
