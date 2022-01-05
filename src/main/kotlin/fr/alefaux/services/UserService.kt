@@ -1,10 +1,14 @@
 package fr.alefaux.services
 
 import fr.alefaux.models.User
+import fr.alefaux.repository.TeamRepository
 import fr.alefaux.repository.UserRepository
 import fr.alefaux.services.models.ServiceResult
 
-class UserService(private val userRepository: UserRepository) {
+class UserService(
+    private val userRepository: UserRepository,
+    private val teamRepository: TeamRepository
+) {
 
     fun create(inputUser: User): ServiceResult<User> {
         val soldierNameExists: Boolean = userRepository.soldierNameExists(inputUser.soldierName)
@@ -17,7 +21,14 @@ class UserService(private val userRepository: UserRepository) {
     }
 
     fun getById(userId: Int): User? {
-        return userRepository.getById(userId)
+        val user = userRepository.getById(userId)
+
+        if (user != null && user.team == null) {
+            val team = teamRepository.findTeamFromChiefId(user.id)
+            user.team = team
+        }
+
+        return user
     }
 
     fun getAll(): List<User> {
