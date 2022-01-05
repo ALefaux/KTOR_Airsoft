@@ -3,6 +3,7 @@ package fr.alefaux.repository
 import fr.alefaux.bdd.entities.TeamEntity
 import fr.alefaux.bdd.entities.UserEntity
 import fr.alefaux.bdd.tables.Teams
+import fr.alefaux.models.CreateTeam
 import fr.alefaux.models.Team
 import org.jetbrains.exposed.sql.select
 import org.jetbrains.exposed.sql.transactions.transaction
@@ -17,18 +18,14 @@ class TeamRepository {
         return@transaction TeamEntity.findById(teamId)?.toTeamWithApplies()
     }
 
-    fun create(insertTeam: Team): Team? = transaction {
-        if(insertTeam.chief?.id != null) {
-            val userChief = UserEntity.findById(insertTeam.chief.id)
-            if(userChief != null) {
-                return@transaction TeamEntity.new {
-                    name = insertTeam.name
-                    acceptApplies = insertTeam.acceptApplies
-                    chief = userChief
-                }.toTeam()
-            } else {
-                return@transaction null
-            }
+    fun create(insertTeam: CreateTeam): Team? = transaction {
+        val userChief = UserEntity.findById(insertTeam.chiefId)
+        if (userChief != null) {
+            return@transaction TeamEntity.new {
+                name = insertTeam.name
+                acceptApplies = insertTeam.acceptApplies
+                chief = userChief
+            }.toTeam()
         } else {
             return@transaction null
         }
@@ -39,7 +36,7 @@ class TeamRepository {
         teamEntity?.name = team.name
         teamEntity?.acceptApplies = team.acceptApplies
 
-        if(team.chief?.id != null) {
+        if (team.chief?.id != null) {
             val newChief = UserEntity.findById(team.chief.id)
             if (newChief != null) {
                 teamEntity?.chief = newChief

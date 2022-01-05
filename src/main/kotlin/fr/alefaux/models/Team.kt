@@ -9,3 +9,8 @@ data class Team(
     val applies: List<Apply>? = null,
     val members: List<User>? = null
 )
+data class CreateTeam(
+    val name: String,
+    val acceptApplies: Boolean,
+    val chiefId: Int
+)

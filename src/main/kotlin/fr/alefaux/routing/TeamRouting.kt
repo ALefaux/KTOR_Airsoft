@@ -1,5 +1,6 @@
 package fr.alefaux.routing
 
+import fr.alefaux.models.CreateTeam
 import fr.alefaux.models.Team
 import fr.alefaux.services.models.ErrorReturned
 import fr.alefaux.services.models.ServiceResult
@@ -38,7 +39,7 @@ fun Application.teamRouting() {
                 }
             }
             post {
-                val insertTeam = call.receive<Team>()
+                val insertTeam = call.receive<CreateTeam>()
                 val result: ServiceResult<Team> = teamService.create(insertTeam)
 
                 when (result.status) {
