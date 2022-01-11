@@ -45,6 +45,21 @@ fun Application.userRouting() {
                     call.respond(HttpStatusCode.BadRequest)
                 }
             }
+            get("/find/{externalId}") {
+                val externalId: String? = call.parameters["externalId"]
+
+                if(externalId != null) {
+                    val user = userService.findByExternalId(externalId)
+
+                    if(user != null) {
+                        call.respond(HttpStatusCode.OK, user)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound)
+                    }
+                } else {
+                    call.respond(HttpStatusCode.BadRequest)
+                }
+            }
         }
     }
 }

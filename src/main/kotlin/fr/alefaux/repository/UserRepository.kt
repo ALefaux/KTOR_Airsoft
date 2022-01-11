@@ -31,12 +31,17 @@ class UserRepository {
             userEnfity?.soldierName = user.soldierName
             userEnfity?.imageUrl = user.imageUrl
 
-            if(user.team != null) {
+            if (user.team != null) {
                 userEnfity?.team = TeamEntity.findById(user.team!!.id)
             }
 
             userEnfity?.flush() ?: false
         }
+    }
+
+    fun findByExternalId(externalId: String): User? = transaction {
+        return@transaction UserEntity.find { Users.externalId eq externalId }
+            .singleOrNull()?.toUser()
     }
 
     fun soldierNameExists(soldierName: String): Boolean = transaction {
