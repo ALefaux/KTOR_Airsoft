@@ -17,10 +17,6 @@ fun Application.userRouting() {
     val userService: UserService by inject()
     routing {
         route(USER_PATH) {
-            get {
-                val users: List<User> = userService.getAll()
-                call.respond(HttpStatusCode.OK, users)
-            }
             post {
                 val inputUser = call.receive<User>()
                 val result = userService.create(inputUser)
@@ -41,6 +37,21 @@ fun Application.userRouting() {
                     val user = userService.getById(userId)
 
                     if (user != null) {
+                        call.respond(HttpStatusCode.OK, user)
+                    } else {
+                        call.respond(HttpStatusCode.NotFound)
+                    }
+                } else {
+                    call.respond(HttpStatusCode.BadRequest)
+                }
+            }
+            get("/find/{externalId}") {
+                val externalId: String? = call.parameters["externalId"]
+
+                if(externalId != null) {
+                    val user = userService.findByExternalId(externalId)
+
+                    if(user != null) {
                         call.respond(HttpStatusCode.OK, user)
                     } else {
                         call.respond(HttpStatusCode.NotFound)

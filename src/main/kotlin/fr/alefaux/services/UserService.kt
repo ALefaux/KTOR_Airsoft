@@ -31,8 +31,8 @@ class UserService(
         return user
     }
 
-    fun getAll(): List<User> {
-        return userRepository.getAll()
+    fun findByExternalId(externalId: String): User? {
+        return userRepository.findByExternalId(externalId)
     }
 
 }
