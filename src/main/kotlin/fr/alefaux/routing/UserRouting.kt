@@ -17,10 +17,6 @@ fun Application.userRouting() {
     val userService: UserService by inject()
     routing {
         route(USER_PATH) {
-            get {
-                val users: List<User> = userService.getAll()
-                call.respond(HttpStatusCode.OK, users)
-            }
             post {
                 val inputUser = call.receive<User>()
                 val result = userService.create(inputUser)
