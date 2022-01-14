@@ -7,10 +7,6 @@ import fr.alefaux.models.User
 import org.jetbrains.exposed.sql.transactions.transaction
 
 class UserRepository {
-    fun getAll(): List<User> = transaction {
-        UserEntity.all().map { it.toUserWithApplies() }.toList()
-    }
-
     fun getById(userId: Int): User? = transaction {
         UserEntity.findById(userId)?.toUserWithApplies()
     }
