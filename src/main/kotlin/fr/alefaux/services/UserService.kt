@@ -32,7 +32,14 @@ class UserService(
     }
 
     fun findByExternalId(externalId: String): User? {
-        return userRepository.findByExternalId(externalId)
+        val user = userRepository.findByExternalId(externalId)
+
+        if (user != null && user.team == null) {
+            val team = teamRepository.findTeamFromChiefId(user.id)
+            user.team = team
+        }
+
+        return user
     }
 
 }
